@@ -35,20 +35,6 @@ def haveTweets():
 
 
 
-
-# check if there's tweets that exist
-def lookupTweets() :
-# loop user's tweets (returns )
-    for tweet in user_tweets :
-        print(tweet.text)
-        username = tweet.user.screen_name
-        the_id = tweet.id # retrieves ID of individial tweets
-        tweet_count += 1
-        print(the_id)
-    # print("Found tweets", tweet_count, "for user", username)
-
-
-
 def deleteTweets() :
 
     for tweet in user_tweets:
