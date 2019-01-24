@@ -1,14 +1,15 @@
+# @todo: program keeps looping after all tweets are deleted w/ "Whoops something went wrong" idk why
+
 
 import tweepy
 from tweepy import OAuthHandler
 
 
 # auth stuff
-consumer_key = 'xx'
-consumer_secret = 'xx'
-access_token = 'xx'
-access_token_secret = 'xx'
-
+consumer_key = ''
+consumer_secret = ''
+access_token = ''
+access_token_secret = ''
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -17,24 +18,39 @@ api = tweepy.API(auth)
 
 user_tweets = api.user_timeline() # returns authenticated user's tweets
 
+
 tweet_count = 0
 
-for tweet in user_tweets :
-    print(tweet.text)
-    username = tweet.user.screen_name
-    the_id = tweet.id # retrieves ID of individial tweets
-    tweet_count += 1
-    print(the_id)
-print("Found tweets", tweet_count, "for user", username)
+# does the account have any tweets?
+def haveTweets():
+    global tweet_count
+    for tweet in user_tweets :
+        tweet_count += 1
+        the_id = tweet.id
+    # return last tweet ID so we know where we left off
+    if tweet_count > 0 :
+        return True
+    else:
+        return False
 
 
-# Time to delete those tweets
 
-dialog = input("Delete tweets? Y/N")
 
-if dialog == "Y" :
+# check if there's tweets that exist
+def lookupTweets() :
+# loop user's tweets (returns )
+    for tweet in user_tweets :
+        print(tweet.text)
+        username = tweet.user.screen_name
+        the_id = tweet.id # retrieves ID of individial tweets
+        tweet_count += 1
+        print(the_id)
+    # print("Found tweets", tweet_count, "for user", username)
 
-    # loop tweets again
+
+
+def deleteTweets() :
+
     for tweet in user_tweets:
         the_id = tweet.id
         api.destroy_status(the_id)
@@ -48,5 +64,22 @@ if dialog == "Y" :
     print("Deleted tweets")
 
 
-else:
-    print("Will not delete tweets")
+
+def main() :
+
+    dialog = input("Delete tweets? Y/N")
+
+    if dialog == "Y" :
+
+        # if tweets still exist, delete them 20 at a time
+        while haveTweets() :
+            try :
+                deleteTweets()
+            except:
+                print("Whoops, something went wrong")
+        print("Tweets all gone")
+
+    else:
+        print("Will not delete tweets")
+
+main()
