@@ -1,15 +1,13 @@
-# @todo: program keeps looping after all tweets are deleted w/ "Whoops something went wrong" idk why
-
 
 import tweepy
 from tweepy import OAuthHandler
 
 
 # auth stuff
-consumer_key = ''
-consumer_secret = ''
-access_token = ''
-access_token_secret = ''
+consumer_key = 'xx'
+consumer_secret = 'xx'
+access_token = 'xx-xx'
+access_token_secret = 'xx'
 
 auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
@@ -26,13 +24,12 @@ def haveTweets():
     global tweet_count
     for tweet in user_tweets :
         tweet_count += 1
-        the_id = tweet.id
-    # return last tweet ID so we know where we left off
+        # the_id = tweet.id
+    # return last tweet ID so we know where we left off in case we need it 
     if tweet_count > 0 :
         return True
     else:
         return False
-
 
 
 def deleteTweets() :
@@ -57,8 +54,8 @@ def main() :
 
     if dialog == "Y" :
 
-        # if tweets still exist, delete them 20 at a time
-        while haveTweets() :
+        # if tweets still exist, delete them 20 at a time (limited by API)
+        while print(haveTweets()) :
             try :
                 deleteTweets()
             except:
@@ -69,3 +66,5 @@ def main() :
         print("Will not delete tweets")
 
 main()
+
+
